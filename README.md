@@ -9,11 +9,8 @@ python3 build_wiki_site.py
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-## Contents
+## Notes
 
-- `index.html` — homepage
-- `pages/` — rendered wiki pages
-- `assets/` — CSS and search index
-- `build_wiki_site.py` — generator script
-
-This repository is intended to be served as a static site.
+- Main navigation hides raw source pages to keep reading focused.
+- Raw source pages remain accessible from each page's source chips.
+- GitHub Actions rebuilds the static site on pushes to `main`.

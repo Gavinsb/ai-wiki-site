@@ -1,36 +1,18 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Anthropic · AI Wiki</title>
-  <link rel="stylesheet" href="../assets/styles.css" />
-</head>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Anthropic · AI Wiki</title><link rel="stylesheet" href="../assets/styles.css" /></head>
 <body>
+<div class="topbar"><div class="mobile-brand"><div class="brand-badge" style="width:28px;height:28px"></div><span>AI Wiki</span></div><button class="menu-btn" id="menuBtn">Menu</button></div>
 <div class="shell">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-badge"></div>
-      <div>
-        <h1>AI Wiki</h1>
-        <p>Friendly browser for your linked research wiki</p>
-      </div>
-    </div>
-    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
-    <div id="search-results" class="search-results" hidden></div>
-    <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div>
-<div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div>
-<div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div>
-<div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div>
-<div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div>
-<div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'>Index</a><a class='nav-link' href='../pages/log.html'>Log</a><a class='nav-link' href='../pages/SCHEMA.html'>Schema</a></div></div>
-    <div class="footer">Generated 2026-04-19 11:20 UTC</div>
-  </aside>
-  <main class="main">
-    
-    <section class="content">
-      <div class="meta"><span class="chip">entities</span><span class="chip">Updated 2026-04-19</span><span class="chip">entity</span></div>
-      <article>
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-badge"></div><div><h1>AI Wiki</h1><p>Friendly browser for your linked research wiki</p></div></div>
+  <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+  <div id="filters" class="filter-row"></div>
+  <div id="search-results" class="search-results" hidden></div>
+  <div class="note">Raw source pages are hidden from the main navigation, but remain available from each page’s source links.</div>
+  <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div><div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__claude-cowork.html'>Claude Cowork</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div><div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div><div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div><div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div><div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'># Wiki Index</a><a class='nav-link' href='../pages/log.html'># Wiki Log</a><a class='nav-link' href='../pages/SCHEMA.html'># Wiki Schema</a></div></div>
+  <div class="footer">Generated 2026-04-19 11:44 UTC</div>
+</aside>
+<main class="main"><section class="content"><div class="meta"><span class="chip">entities</span><span class="chip">Updated 2026-04-19</span><span class="chip">entity</span></div><article>
 <h1 id="anthropic">Anthropic</h1>
 
 <h2 id="summary">Summary</h2>
@@ -59,6 +41,13 @@
 <li>This makes Anthropic’s agentic product stance somewhat more operationally disciplined and coding-centered than the broader workspace framing in <a href="../pages/entities__codex.html">codex</a>.</li>
 </ul>
 
+<h2 id="cowork-as-product-strategy">Cowork as product strategy</h2>
+<ul>
+<li><a href="../pages/entities__claude-cowork.html">claude-cowork</a> extends Anthropic’s agent thesis beyond developers into non-technical knowledge work.</li>
+<li>The public framing suggests a product ladder from chat assistance to coding execution to general workplace execution.</li>
+<li>This indicates Anthropic is treating agentic AI as a portfolio of work surfaces, not just a single chatbot experience.</li>
+</ul>
+
 <h2 id="relationships">Relationships</h2>
 <ul>
 <li>Anthropic’s framing contrasts with the more declarative agenda in <a href="../pages/concepts__industrial-policy-for-the-intelligence-age.html">industrial-policy-for-the-intelligence-age</a>.</li>
@@ -69,32 +58,32 @@
 <ul>
 <li>How should uncertainty-sensitive policy planning be converted into concrete legislative action?</li>
 <li>To what extent does Anthropic’s labor framing differ in practice from OpenAI’s and Google’s more opportunity-led narratives?</li>
-</ul></article>
-    </section>
-    <div class="aside-grid" style="margin-top:20px;">
-      <section class="panel"><h3>Sources</h3><a class="chip" href="../pages/raw__articles__anthropic-economic-policy-responses-2025.html">anthropic economic policy responses 2025</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-product-2026.html">anthropic claude code product 2026</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-best-practices-2026.html">anthropic claude code best practices 2026</a><a class="chip" href="../pages/raw__articles__anthropic-agentic-coding-trends-report-2026.html">anthropic agentic coding trends report 2026</a></section>
-      <section class="panel"><h3>Backlinks</h3><a class="result" href="../pages/start-here.html"><strong>Start Here</strong><small>root</small><div>This wiki is a growing knowledge base on frontier AI, agentic software development, policy framing, and the emerging market structure around technical-work agents. It is designed for fast navigation through linked pages </div></a><a class="result" href="../pages/_meta__topic-map.html"><strong>Topic Map</strong><small>_meta</small><div>Core pages:</div></a><a class="result" href="../pages/entities__claude-code.html"><strong>Claude Code</strong><small>entities</small><div>claude-code is anthropic’s agentic coding system. Anthropic frames it as a project-level software agent that can read codebases, modify multiple files, run commands and tests, and deliver code ready for review rather tha</div></a><a class="result" href="../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html"><strong>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</strong><small>comparisons</small><div>These four approaches overlap on the importance of AI, infrastructure, and state involvement, but they differ sharply on what problem AI policy is primarily trying to solve. openai emphasizes democratic distribution and </div></a><a class="result" href="../pages/index.html"><strong># Wiki Index</strong><small>root</small><div>&gt; Content catalog. Every wiki page listed under its type with a one-line summary.</div></a></section>
-    </div>
-    
-  </main>
+</ul></article></section><div class="aside-grid" style="margin-top:20px;"><section class="panel"><h3>Sources</h3><a class="chip" href="../pages/raw__articles__anthropic-economic-policy-responses-2025.html">anthropic economic policy responses 2025</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-product-2026.html">anthropic claude code product 2026</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-best-practices-2026.html">anthropic claude code best practices 2026</a><a class="chip" href="../pages/raw__articles__anthropic-agentic-coding-trends-report-2026.html">anthropic agentic coding trends report 2026</a><a class="chip" href="../pages/raw__articles__anthropic-claude-cowork-product-2026.html">anthropic claude cowork product 2026</a><a class="chip" href="../pages/raw__articles__anthropic-introducing-cowork-webinar-2026.html">anthropic introducing cowork webinar 2026</a><a class="chip" href="../pages/raw__articles__anthropic-cowork-legal-teams-webinar-2026.html">anthropic cowork legal teams webinar 2026</a></section><section class="panel"><h3>Backlinks</h3><a class="result" href="../pages/start-here.html"><strong>Start Here</strong><small>root</small><div>This wiki is a growing knowledge base on frontier AI, agentic software development, policy framing, and the emerging market structure around technical-work agents. It is designed for fast navigation through linked pages </div></a><a class="result" href="../pages/_meta__topic-map.html"><strong>Topic Map</strong><small>_meta</small><div>Core pages:</div></a><a class="result" href="../pages/entities__claude-code.html"><strong>Claude Code</strong><small>entities</small><div>claude-code is anthropic’s agentic coding system. Anthropic frames it as a project-level software agent that can read codebases, modify multiple files, run commands and tests, and deliver code ready for review rather tha</div></a><a class="result" href="../pages/entities__claude-cowork.html"><strong>Claude Cowork</strong><small>entities</small><div>claude-cowork is anthropic’s agentic AI product for non-technical knowledge work. It is designed to take an outcome, operate across local files and desktop applications, and return finished deliverables in workflows such</div></a><a class="result" href="../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html"><strong>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</strong><small>comparisons</small><div>These four approaches overlap on the importance of AI, infrastructure, and state involvement, but they differ sharply on what problem AI policy is primarily trying to solve. openai emphasizes democratic distribution and </div></a><a class="result" href="../pages/index.html"><strong># Wiki Index</strong><small>root</small><div>&gt; Content catalog. Every wiki page listed under its type with a one-line summary.</div></a></section></div></main>
 </div>
 <script>
+const FILTERS = [{"key": "all", "label": "All"}, {"key": "entities", "label": "Entities"}, {"key": "concepts", "label": "Concepts"}, {"key": "comparisons", "label": "Comparisons"}, {"key": "queries", "label": "Queries"}, {"key": "root", "label": "Guides"}];
 const input = document.getElementById('search');
 const results = document.getElementById('search-results');
-let indexCache = null;
-async function getIndex() {
-  if (indexCache) return indexCache;
-  const res = await fetch('../assets/search-index.json');
-  indexCache = await res.json();
-  return indexCache;
+const filtersEl = document.getElementById('filters');
+const menuBtn = document.getElementById('menuBtn');
+let indexCache = null; let activeFilter = 'all';
+function renderFilters() {
+  filtersEl.innerHTML = FILTERS.map(f => `<button class="filter-chip ${f.key === activeFilter ? 'active' : ''}" data-key="${f.key}">${f.label}</button>`).join('');
+  filtersEl.querySelectorAll('.filter-chip').forEach(btn => btn.addEventListener('click', () => { activeFilter = btn.dataset.key; renderFilters(); runSearch(); }));
 }
-input.addEventListener('input', async (e) => {
-  const q = e.target.value.trim().toLowerCase();
+async function getIndex() { if (indexCache) return indexCache; const res = await fetch('../assets/search-index.json'); indexCache = await res.json(); return indexCache; }
+async function runSearch() {
+  const q = input.value.trim().toLowerCase();
   if (!q) { results.hidden = true; results.innerHTML = ''; return; }
   const idx = await getIndex();
-  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  let matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text + ' ' + x.tags).toLowerCase().includes(q));
+  if (activeFilter !== 'all') matches = matches.filter(x => x.category === activeFilter);
+  matches = matches.slice(0, 12);
   results.hidden = false;
   results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${x.url}"><strong>${x.title}</strong><small>${x.category}</small><div>${x.summary}</div></a>`).join('') : '<div class="result">No results yet.</div>';
-});
-</script>
-</body></html>
+}
+input.addEventListener('input', runSearch);
+renderFilters();
+if (menuBtn) menuBtn.addEventListener('click', () => document.body.classList.toggle('nav-open'));
+document.querySelectorAll('.nav-link').forEach(a => a.addEventListener('click', () => document.body.classList.remove('nav-open')));
+</script></body></html>

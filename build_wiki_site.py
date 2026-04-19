@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import re, json, html
-from pathlib import Path
+import html
+import json
+import re
 from datetime import datetime
+from pathlib import Path
 
 WIKI = Path('/home/gazaz/wiki')
 OUT = Path('/home/gazaz/wiki-site')
 
-CONTENT_GROUPS = [
-    ('meta', [WIKI / 'start-here.md', WIKI / '_meta' / 'topic-map.md']),
-    ('entities', sorted((WIKI / 'entities').glob('*.md'))),
-    ('concepts', sorted((WIKI / 'concepts').glob('*.md'))),
-    ('comparisons', sorted((WIKI / 'comparisons').glob('*.md'))),
-    ('queries', sorted((WIKI / 'queries').glob('*.md'))),
+VISIBLE_GROUPS = [
+    ('Meta', [WIKI / 'start-here.md', WIKI / '_meta' / 'topic-map.md']),
+    ('Entities', sorted((WIKI / 'entities').glob('*.md'))),
+    ('Concepts', sorted((WIKI / 'concepts').glob('*.md'))),
+    ('Comparisons', sorted((WIKI / 'comparisons').glob('*.md'))),
+    ('Queries', sorted((WIKI / 'queries').glob('*.md'))),
 ]
-OPTIONAL_FILES = [WIKI / 'index.md', WIKI / 'log.md', WIKI / 'SCHEMA.md']
+REFERENCE_FILES = [WIKI / 'index.md', WIKI / 'log.md', WIKI / 'SCHEMA.md']
 RAW_FILES = sorted((WIKI / 'raw').rglob('*.md'))
+ALL_FILES = [p for _, files in VISIBLE_GROUPS for p in files] + [p for p in REFERENCE_FILES if p.exists()] + RAW_FILES
 
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'pages').mkdir(exist_ok=True)
 (OUT / 'assets').mkdir(exist_ok=True)
+(OUT / '.github' / 'workflows').mkdir(parents=True, exist_ok=True)
 
 
 def parse_frontmatter(text: str):
@@ -48,22 +52,15 @@ def strip_md(s: str) -> str:
 
 
 def slug_for(path: Path) -> str:
-    rel = path.relative_to(WIKI)
-    return rel.with_suffix('').as_posix().replace('/', '__')
+    return path.relative_to(WIKI).with_suffix('').as_posix().replace('/', '__')
 
 
 def page_url(slug: str) -> str:
     return f'pages/{slug}.html'
 
 
-all_files = []
-for _, files in CONTENT_GROUPS:
-    all_files.extend(files)
-all_files.extend([p for p in OPTIONAL_FILES if p.exists()])
-all_files.extend(RAW_FILES)
-
-slug_map = {p.stem: slug_for(p) for p in all_files}
-full_slug_map = {p.relative_to(WIKI).with_suffix('').as_posix(): slug_for(p) for p in all_files}
+slug_map = {p.stem: slug_for(p) for p in ALL_FILES}
+full_slug_map = {p.relative_to(WIKI).with_suffix('').as_posix(): slug_for(p) for p in ALL_FILES}
 
 
 def resolve_wikilink(target: str):
@@ -75,7 +72,7 @@ def resolve_wikilink(target: str):
     return None
 
 
-def fmt_inline(text: str) -> str:
+def fmt_inline(text: str, level: str = 'page') -> str:
     text = html.escape(text)
     text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
     text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
@@ -91,14 +88,14 @@ def fmt_inline(text: str) -> str:
         href = resolve_wikilink(target)
         label = html.escape(label)
         if href:
-            return f'<a href="../{href}">{label}</a>'
+            prefix = '../' if level == 'page' else ''
+            return f'<a href="{prefix}{href}">{label}</a>'
         return f'<span class="broken-link">{label}</span>'
 
-    text = re.sub(r'\[\[([^\]]+)\]\]', wl, text)
-    return text
+    return re.sub(r'\[\[([^\]]+)\]\]', wl, text)
 
 
-def markdown_to_html(md: str) -> str:
+def markdown_to_html(md: str, level: str = 'page') -> str:
     lines = md.splitlines()
     out = []
     in_list = False
@@ -117,16 +114,13 @@ def markdown_to_html(md: str) -> str:
         if not in_table:
             return
         if len(table_rows) >= 2:
-            headers = [fmt_inline(c.strip()) for c in table_rows[0].strip('|').split('|')]
+            headers = [fmt_inline(c.strip(), level) for c in table_rows[0].strip('|').split('|')]
             body_rows = table_rows[2:]
             out.append('<div class="table-wrap"><table><thead><tr>' + ''.join(f'<th>{h}</th>' for h in headers) + '</tr></thead><tbody>')
             for row in body_rows:
-                cols = [fmt_inline(c.strip()) for c in row.strip('|').split('|')]
+                cols = [fmt_inline(c.strip(), level) for c in row.strip('|').split('|')]
                 out.append('<tr>' + ''.join(f'<td>{c}</td>' for c in cols) + '</tr>')
             out.append('</tbody></table></div>')
-        else:
-            for row in table_rows:
-                out.append(f'<p>{fmt_inline(row)}</p>')
         table_rows = []
         in_table = False
 
@@ -134,14 +128,9 @@ def markdown_to_html(md: str) -> str:
     while i < len(lines):
         line = lines[i]
         if line.startswith('```'):
-            flush_table()
-            close_list()
-            if not in_code:
-                out.append('<pre><code>')
-                in_code = True
-            else:
-                out.append('</code></pre>')
-                in_code = False
+            flush_table(); close_list()
+            out.append('<pre><code>' if not in_code else '</code></pre>')
+            in_code = not in_code
             i += 1
             continue
         if in_code:
@@ -149,59 +138,39 @@ def markdown_to_html(md: str) -> str:
             i += 1
             continue
         if line.strip().startswith('|') and line.count('|') >= 2:
-            close_list()
-            in_table = True
-            table_rows.append(line)
-            i += 1
-            continue
+            close_list(); in_table = True; table_rows.append(line); i += 1; continue
         else:
             flush_table()
         if not line.strip():
-            close_list()
-            out.append('')
-            i += 1
-            continue
+            close_list(); out.append(''); i += 1; continue
         if line.startswith('#'):
             close_list()
             m = re.match(r'^(#{1,6})\s+(.*)$', line)
             if m:
-                level = len(m.group(1))
-                content = fmt_inline(m.group(2).strip())
+                lvl = len(m.group(1))
+                content = fmt_inline(m.group(2).strip(), level)
                 anchor = re.sub(r'[^a-z0-9]+', '-', strip_md(m.group(2).lower())).strip('-')
-                out.append(f'<h{level} id="{anchor}">{content}</h{level}>')
-                i += 1
-                continue
+                out.append(f'<h{lvl} id="{anchor}">{content}</h{lvl}>')
+                i += 1; continue
         if re.match(r'^-\s+', line):
             if not in_list:
-                out.append('<ul>')
-                in_list = True
+                out.append('<ul>'); in_list = True
             item = re.sub(r'^-\s+', '', line)
-            out.append(f'<li>{fmt_inline(item)}</li>')
-            i += 1
-            continue
+            out.append(f'<li>{fmt_inline(item, level)}</li>')
+            i += 1; continue
         if re.match(r'^\d+\.\s+', line):
             close_list()
             items = []
             while i < len(lines) and re.match(r'^\d+\.\s+', lines[i]):
-                items.append(re.sub(r'^\d+\.\s+', '', lines[i]))
-                i += 1
-            out.append('<ol>' + ''.join(f'<li>{fmt_inline(it)}</li>' for it in items) + '</ol>')
+                items.append(re.sub(r'^\d+\.\s+', '', lines[i])); i += 1
+            out.append('<ol>' + ''.join(f'<li>{fmt_inline(it, level)}</li>' for it in items) + '</ol>')
             continue
         if line.startswith('>'):
-            close_list()
-            out.append(f'<blockquote>{fmt_inline(line[1:].strip())}</blockquote>')
-            i += 1
-            continue
+            close_list(); out.append(f'<blockquote>{fmt_inline(line[1:].strip(), level)}</blockquote>'); i += 1; continue
         if line.startswith('---') and set(line.strip()) == {'-'}:
-            close_list()
-            out.append('<hr />')
-            i += 1
-            continue
-        close_list()
-        out.append(f'<p>{fmt_inline(line)}</p>')
-        i += 1
-    flush_table()
-    close_list()
+            close_list(); out.append('<hr />'); i += 1; continue
+        close_list(); out.append(f'<p>{fmt_inline(line, level)}</p>'); i += 1
+    flush_table(); close_list()
     if in_code:
         out.append('</code></pre>')
     return '\n'.join(out)
@@ -216,34 +185,48 @@ def extract_summary(body: str) -> str:
 
 
 pages = []
-for path in all_files:
-    text = path.read_text()
-    meta, body = parse_frontmatter(text)
+for path in ALL_FILES:
+    meta, body = parse_frontmatter(path.read_text())
     title = meta.get('title') or strip_md(next((ln for ln in body.splitlines() if ln.startswith('# ')), path.stem))
     category = path.parent.name if path.parent != WIKI else 'root'
-    slug = slug_for(path)
     pages.append({
         'path': path,
-        'slug': slug,
+        'slug': slug_for(path),
+        'url': page_url(slug_for(path)),
         'title': title,
-        'body': body,
         'meta': meta,
-        'category': category,
-        'url': page_url(slug),
+        'body': body,
         'summary': extract_summary(body),
+        'category': category,
+        'is_raw': path in RAW_FILES,
+        'stem': path.stem,
     })
 
-page_lookup = {p['slug']: p for p in pages}
 for p in pages:
     p['wikilinks'] = re.findall(r'\[\[([^\]|#]+)', p['body'])
 for p in pages:
-    p['backlinks'] = [q for q in pages if p['path'].stem in q['wikilinks'] and q['slug'] != p['slug']]
+    p['backlinks'] = [q for q in pages if p['stem'] in q['wikilinks'] and q['slug'] != p['slug']]
+
+visible_pages = [p for p in pages if not p['is_raw']]
+search_index = [
+    {
+        'title': p['title'],
+        'url': p['url'],
+        'category': p['category'],
+        'summary': p['summary'],
+        'tags': p['meta'].get('tags', ''),
+        'text': strip_md(re.sub(r'```.*?```', ' ', p['body'], flags=re.S))[:7000],
+    }
+    for p in visible_pages
+]
+(OUT / 'assets' / 'search-index.json').write_text(json.dumps(search_index, indent=2))
 
 css = '''
 :root {
   --bg: #0b1020;
-  --panel: rgba(17, 24, 39, 0.88);
-  --panel-2: rgba(30, 41, 59, 0.72);
+  --panel: rgba(15, 23, 42, 0.88);
+  --panel-2: rgba(30, 41, 59, 0.82);
+  --panel-3: rgba(51, 65, 85, 0.55);
   --text: #e5eefc;
   --muted: #9fb2d9;
   --brand: #7dd3fc;
@@ -257,23 +240,28 @@ css = '''
 html, body { margin: 0; padding: 0; background: radial-gradient(circle at top, #16213e 0%, #0b1020 55%); color: var(--text); font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
+body.nav-open { overflow: hidden; }
+.topbar { display:none; }
 .shell { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
 .sidebar { position: sticky; top: 0; height: 100vh; overflow: auto; background: rgba(2,6,23,0.72); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 20px; }
 .brand { display:flex; gap:12px; align-items:center; margin-bottom: 18px; }
 .brand-badge { width:44px; height:44px; border-radius:14px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
 .brand h1 { font-size: 1.15rem; margin:0; }
 .brand p { margin:0; color: var(--muted); font-size:.92rem; }
-.search { width:100%; border:1px solid var(--line); background: var(--panel); color:var(--text); border-radius:14px; padding:12px 14px; outline:none; margin: 10px 0 18px; }
+.search { width:100%; border:1px solid var(--line); background: var(--panel); color:var(--text); border-radius:14px; padding:12px 14px; outline:none; }
+.filter-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 16px; }
+.filter-chip { cursor:pointer; border:1px solid var(--line); background: var(--panel-2); color: var(--muted); border-radius:999px; padding:6px 10px; font-size:.82rem; }
+.filter-chip.active { background: linear-gradient(135deg, rgba(125,211,252,.22), rgba(167,139,250,.22)); color: var(--text); }
 .nav-section { margin: 18px 0; }
 .nav-section h3 { color: var(--muted); font-size:.8rem; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 8px; }
 .nav-list { display:grid; gap:6px; }
 .nav-link { display:block; padding:9px 11px; border-radius:12px; color:var(--text); background: transparent; }
-.nav-link:hover, .nav-link.active { background: var(--panel-2); text-decoration:none; }
+.nav-link:hover, .nav-link.active { background: var(--panel-3); text-decoration:none; }
 .main { padding: 30px; }
 .hero { background: linear-gradient(180deg, rgba(125,211,252,.14), rgba(167,139,250,.08)); border:1px solid var(--line); border-radius: 24px; padding: 26px; margin-bottom: 20px; box-shadow: var(--shadow); }
 .hero h1 { margin:0 0 10px; font-size: 2rem; }
 .hero p { margin:0; color: var(--muted); max-width: 70ch; }
-.cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; margin:20px 0; }
+.cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; margin:20px 0; }
 .card { background: var(--panel); border:1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
 .card h3 { margin:0 0 6px; font-size:1rem; }
 .card p, .muted { color: var(--muted); }
@@ -298,162 +286,124 @@ th, td { border-bottom:1px solid var(--line); padding:10px 12px; text-align:left
 .search-results { display:grid; gap:10px; margin: 10px 0 18px; }
 .result { display:block; padding:12px 14px; border-radius:14px; border:1px solid var(--line); background: var(--panel); }
 .result small { color: var(--muted); display:block; }
+.note { font-size:.9rem; color: var(--muted); }
 @media (max-width: 900px) {
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; position:sticky; top:0; z-index:30; backdrop-filter: blur(18px); background: rgba(2,6,23,.85); border-bottom:1px solid var(--line); }
+  .mobile-brand { display:flex; align-items:center; gap:10px; font-weight:700; }
+  .menu-btn { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--text); border-radius:12px; padding:10px 12px; }
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
+  .sidebar { position: fixed; inset: 60px 0 0 0; height:auto; transform: translateX(-100%); transition: transform .2s ease; z-index: 40; }
+  body.nav-open .sidebar { transform: translateX(0); }
   .main { padding: 18px; }
   .aside-grid { grid-template-columns: 1fr; }
 }
 '''
 (OUT / 'assets' / 'styles.css').write_text(css)
 
-search_index = []
-for p in pages:
-    if p['category'] == 'raw':
-        continue
-    text = strip_md(re.sub(r'```.*?```', ' ', p['body'], flags=re.S))
-    search_index.append({'title': p['title'], 'url': p['url'], 'category': p['category'], 'summary': p['summary'], 'text': text[:6000]})
-(OUT / 'assets' / 'search-index.json').write_text(json.dumps(search_index, indent=2))
-
 nav_sections = []
-for section, files in CONTENT_GROUPS:
+for label, files in VISIBLE_GROUPS:
     items = []
     for f in files:
-        s = slug_for(f)
-        p = page_lookup[s]
-        items.append((p['title'], p['url']))
-    nav_sections.append((section.title(), items))
-nav_sections.append(('Reference', [('Index', page_url(slug_for(WIKI / 'index.md'))), ('Log', page_url(slug_for(WIKI / 'log.md'))), ('Schema', page_url(slug_for(WIKI / 'SCHEMA.md')))]))
-
-nav_html = '\n'.join(
-    f"<div class='nav-section'><h3>{html.escape(name)}</h3><div class='nav-list'>" + ''.join(
-        f"<a class='nav-link' href='../{url}'>{html.escape(title)}</a>" for title, url in items
-    ) + "</div></div>" for name, items in nav_sections
-)
+        page = next(p for p in pages if p['path'] == f)
+        items.append((page['title'], page['url']))
+    nav_sections.append((label, items))
+nav_sections.append(('Reference', [(next(p for p in pages if p['path'] == f)['title'], next(p for p in pages if p['path'] == f)['url']) for f in REFERENCE_FILES if f.exists()]))
 
 
-def wrap_page(title: str, main_html: str):
+def build_nav(level='page'):
+    prefix = '../' if level == 'page' else ''
+    parts = []
+    for label, items in nav_sections:
+        parts.append(f"<div class='nav-section'><h3>{html.escape(label)}</h3><div class='nav-list'>")
+        for title, url in items:
+            parts.append(f"<a class='nav-link' href='{prefix}{url}'>{html.escape(title)}</a>")
+        parts.append('</div></div>')
+    return ''.join(parts)
+
+filters_js = json.dumps([
+    {'key': 'all', 'label': 'All'},
+    {'key': 'entities', 'label': 'Entities'},
+    {'key': 'concepts', 'label': 'Concepts'},
+    {'key': 'comparisons', 'label': 'Comparisons'},
+    {'key': 'queries', 'label': 'Queries'},
+    {'key': 'root', 'label': 'Guides'},
+])
+
+
+def shell_html(main_html: str, title: str, level='page'):
+    prefix = '../' if level == 'page' else ''
+    search_path = prefix + 'assets/search-index.json'
+    nav = build_nav(level)
+    generated = datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
     return f'''<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{html.escape(title)} · AI Wiki</title>
-  <link rel="stylesheet" href="../assets/styles.css" />
-</head>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>{html.escape(title)} · AI Wiki</title><link rel="stylesheet" href="{prefix}assets/styles.css" /></head>
 <body>
+<div class="topbar"><div class="mobile-brand"><div class="brand-badge" style="width:28px;height:28px"></div><span>AI Wiki</span></div><button class="menu-btn" id="menuBtn">Menu</button></div>
 <div class="shell">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-badge"></div>
-      <div>
-        <h1>AI Wiki</h1>
-        <p>Friendly browser for your linked research wiki</p>
-      </div>
-    </div>
-    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
-    <div id="search-results" class="search-results" hidden></div>
-    {nav_html}
-    <div class="footer">Generated {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</div>
-  </aside>
-  <main class="main">
-    {main_html}
-  </main>
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-badge"></div><div><h1>AI Wiki</h1><p>Friendly browser for your linked research wiki</p></div></div>
+  <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+  <div id="filters" class="filter-row"></div>
+  <div id="search-results" class="search-results" hidden></div>
+  <div class="note">Raw source pages are hidden from the main navigation, but remain available from each page’s source links.</div>
+  {nav}
+  <div class="footer">Generated {generated}</div>
+</aside>
+<main class="main">{main_html}</main>
 </div>
 <script>
+const FILTERS = {filters_js};
 const input = document.getElementById('search');
 const results = document.getElementById('search-results');
-let indexCache = null;
-async function getIndex() {{
-  if (indexCache) return indexCache;
-  const res = await fetch('../assets/search-index.json');
-  indexCache = await res.json();
-  return indexCache;
+const filtersEl = document.getElementById('filters');
+const menuBtn = document.getElementById('menuBtn');
+let indexCache = null; let activeFilter = 'all';
+function renderFilters() {{
+  filtersEl.innerHTML = FILTERS.map(f => `<button class="filter-chip ${'{'}f.key === activeFilter ? 'active' : ''{'}'}" data-key="${'{'}f.key{'}'}">${'{'}f.label{'}'}</button>`).join('');
+  filtersEl.querySelectorAll('.filter-chip').forEach(btn => btn.addEventListener('click', () => {{ activeFilter = btn.dataset.key; renderFilters(); runSearch(); }}));
 }}
-input.addEventListener('input', async (e) => {{
-  const q = e.target.value.trim().toLowerCase();
+async function getIndex() {{ if (indexCache) return indexCache; const res = await fetch('{search_path}'); indexCache = await res.json(); return indexCache; }}
+async function runSearch() {{
+  const q = input.value.trim().toLowerCase();
   if (!q) {{ results.hidden = true; results.innerHTML = ''; return; }}
   const idx = await getIndex();
-  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  let matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text + ' ' + x.tags).toLowerCase().includes(q));
+  if (activeFilter !== 'all') matches = matches.filter(x => x.category === activeFilter);
+  matches = matches.slice(0, 12);
   results.hidden = false;
-  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${{x.url}}"><strong>${{x.title}}</strong><small>${{x.category}}</small><div>${{x.summary}}</div></a>`).join('') : '<div class="result">No results yet.</div>';
-}});
-</script>
-</body></html>'''
+  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="{prefix}${'{'}x.url{'}'}"><strong>${'{'}x.title{'}'}</strong><small>${'{'}x.category{'}'}</small><div>${'{'}x.summary{'}'}</div></a>`).join('') : '<div class="result">No results yet.</div>';
+}}
+input.addEventListener('input', runSearch);
+renderFilters();
+if (menuBtn) menuBtn.addEventListener('click', () => document.body.classList.toggle('nav-open'));
+document.querySelectorAll('.nav-link').forEach(a => a.addEventListener('click', () => document.body.classList.remove('nav-open')));
+</script></body></html>'''
 
-non_raw = [p for p in pages if p['category'] != 'raw']
 counts = {}
-for p in non_raw:
+for p in visible_pages:
     counts[p['category']] = counts.get(p['category'], 0) + 1
-featured_paths = [
-    WIKI / 'start-here.md',
-    WIKI / 'comparisons' / 'codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.md',
-    WIKI / 'comparisons' / 'codex-vs-claude-code-and-open-agent-platforms.md',
-]
-featured = [next(p for p in pages if p['path'] == fp) for fp in featured_paths if fp.exists()]
-recent = sorted(non_raw, key=lambda p: p['path'].stat().st_mtime, reverse=True)[:8]
-main = f'''
-<section class="hero">
-  <h1>Explore your AI research wiki</h1>
-  <p>A clean, remote-friendly website for browsing entities, concepts, comparisons, and research syntheses. Start with the guided entry points, then use search and backlinks to move through the graph.</p>
-</section>
-<section class="cards">
-  <div class="card"><h3>{counts.get('entities',0)}</h3><p>Entities</p></div>
-  <div class="card"><h3>{counts.get('concepts',0)}</h3><p>Concepts</p></div>
-  <div class="card"><h3>{counts.get('comparisons',0)}</h3><p>Comparisons</p></div>
-  <div class="card"><h3>{counts.get('queries',0)}</h3><p>Research queries</p></div>
-</section>
-<div class="aside-grid">
-  <section class="panel">
-    <h3>Best places to start</h3>
-    {''.join(f'<a class="result" href="{p["url"]}"><strong>{html.escape(p["title"])}</strong><small>{p["category"]}</small><div>{html.escape(p["summary"])}</div></a>' for p in featured)}
-  </section>
-  <section class="panel">
-    <h3>Recently updated</h3>
-    {''.join(f'<a class="result" href="{p["url"]}"><strong>{html.escape(p["title"])}</strong><small>{p["category"]}</small><div>{html.escape(p["summary"])}</div></a>' for p in recent)}
-  </section>
-</div>
-'''
-index_nav = nav_html.replace('../', '')
-(OUT / 'index.html').write_text(f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>AI Wiki</title><link rel="stylesheet" href="assets/styles.css" /></head>
-<body><div class="shell"><aside class="sidebar"><div class="brand"><div class="brand-badge"></div><div><h1>AI Wiki</h1><p>Friendly browser for your linked research wiki</p></div></div><input id="search" class="search" placeholder="Search pages, topics, companies…" /><div id="search-results" class="search-results" hidden></div>{index_nav}<div class="footer">Generated {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</div></aside><main class="main">{main}</main></div><script>
-const input=document.getElementById('search'); const results=document.getElementById('search-results'); let indexCache=null; async function getIndex(){{ if(indexCache) return indexCache; const res=await fetch('assets/search-index.json'); indexCache=await res.json(); return indexCache; }} input.addEventListener('input', async (e)=>{{ const q=e.target.value.trim().toLowerCase(); if(!q){{results.hidden=true; results.innerHTML=''; return;}} const idx=await getIndex(); const matches=idx.filter(x => (x.title+' '+x.summary+' '+x.text).toLowerCase().includes(q)).slice(0,10); results.hidden=false; results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="${{x.url}}"><strong>${{x.title}}</strong><small>${{x.category}}</small><div>${{x.summary}}</div></a>`).join('') : '<div class="result">No results yet.</div>'; }});
-</script></body></html>''')
+featured = [p for p in visible_pages if p['slug'] in {'start-here', 'comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats', 'comparisons__codex-vs-claude-code-and-open-agent-platforms'}]
+recent = sorted(visible_pages, key=lambda p: p['path'].stat().st_mtime, reverse=True)[:8]
+home_main = f'''<section class="hero"><h1>Explore your AI research wiki</h1><p>A clean, remote-friendly website for browsing entities, concepts, comparisons, and research syntheses. Start with the guided entry points, then use search, filters, and backlinks to move through the graph.</p></section><section class="cards"><div class="card"><h3>{counts.get('entities',0)}</h3><p>Entities</p></div><div class="card"><h3>{counts.get('concepts',0)}</h3><p>Concepts</p></div><div class="card"><h3>{counts.get('comparisons',0)}</h3><p>Comparisons</p></div><div class="card"><h3>{counts.get('queries',0)}</h3><p>Research queries</p></div></section><div class="aside-grid"><section class="panel"><h3>Best places to start</h3>{''.join(f'<a class="result" href="{p["url"]}"><strong>{html.escape(p["title"])}</strong><small>{p["category"]}</small><div>{html.escape(p["summary"])}</div></a>' for p in featured)}</section><section class="panel"><h3>Recently updated</h3>{''.join(f'<a class="result" href="{p["url"]}"><strong>{html.escape(p["title"])}</strong><small>{p["category"]}</small><div>{html.escape(p["summary"])}</div></a>' for p in recent)}</section></div>'''
+(OUT / 'index.html').write_text(shell_html(home_main, 'AI Wiki', level='root'))
 
 for p in pages:
-    body_html = markdown_to_html(p['body'])
+    body_html = markdown_to_html(p['body'], level='page')
+    meta_bits = []
+    if p['category']: meta_bits.append(f'<span class="chip">{html.escape(p["category"])}</span>')
+    if p['meta'].get('updated'): meta_bits.append(f'<span class="chip">Updated {html.escape(p["meta"]["updated"])}</span>')
+    if p['meta'].get('type'): meta_bits.append(f'<span class="chip">{html.escape(p["meta"]["type"])}</span>')
     sources = p['meta'].get('sources', '').strip()
     source_links = []
     if sources.startswith('[') and sources.endswith(']'):
         items = [x.strip() for x in sources[1:-1].split(',') if x.strip()]
         for item in items:
-            raw_key = item.replace('.md', '').strip()
-            href = resolve_wikilink(raw_key)
+            href = resolve_wikilink(item.replace('.md', ''))
             if href:
-                label = Path(item).stem.replace('-', ' ')
-                source_links.append(f'<a class="chip" href="../{href}">{html.escape(label)}</a>')
-    backlinks = ''.join(f'<a class="result" href="../{q["url"]}"><strong>{html.escape(q["title"])}</strong><small>{q["category"]}</small><div>{html.escape(q["summary"])}</div></a>' for q in p['backlinks'][:8]) or '<div class="muted">No backlinks yet.</div>'
+                source_links.append(f'<a class="chip" href="../{href}">{html.escape(Path(item).stem.replace("-", " "))}</a>')
+    backlinks = ''.join(f'<a class="result" href="../{q["url"]}"><strong>{html.escape(q["title"])}</strong><small>{q["category"]}</small><div>{html.escape(q["summary"])}</div></a>' for q in p['backlinks'][:10]) or '<div class="muted">No backlinks yet.</div>'
     source_html = ''.join(source_links) or '<span class="muted">No linked source pages.</span>'
-    meta_bits = []
-    if p['category']:
-        meta_bits.append(f'<span class="chip">{html.escape(p["category"])}</span>')
-    if p['meta'].get('updated'):
-        meta_bits.append(f'<span class="chip">Updated {html.escape(p["meta"]["updated"])}</span>')
-    if p['meta'].get('type'):
-        meta_bits.append(f'<span class="chip">{html.escape(p["meta"]["type"])}</span>')
-    page_main = f'''
-    <section class="content">
-      <div class="meta">{''.join(meta_bits)}</div>
-      <article>{body_html}</article>
-    </section>
-    <div class="aside-grid" style="margin-top:20px;">
-      <section class="panel"><h3>Sources</h3>{source_html}</section>
-      <section class="panel"><h3>Backlinks</h3>{backlinks}</section>
-    </div>
-    '''
+    page_main = f'<section class="content"><div class="meta">{"".join(meta_bits)}</div><article>{body_html}</article></section><div class="aside-grid" style="margin-top:20px;"><section class="panel"><h3>Sources</h3>{source_html}</section><section class="panel"><h3>Backlinks</h3>{backlinks}</section></div>'
     out_path = OUT / p['url']
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(wrap_page(p['title'], page_main))
-
-print(f'Generated site with {len(pages)} pages at {OUT}')
+    out_path.write_text(shell_html(page_main, p['title'], level='page'))
