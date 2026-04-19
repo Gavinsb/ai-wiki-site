@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title># Codex for (almost) everything — Summary · AI Wiki</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge"></div>
+      <div>
+        <h1>AI Wiki</h1>
+        <p>Friendly browser for your linked research wiki</p>
+      </div>
+    </div>
+    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+    <div id="search-results" class="search-results" hidden></div>
+    <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div>
+<div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div>
+<div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div>
+<div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div>
+<div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div>
+<div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'>Index</a><a class='nav-link' href='../pages/log.html'>Log</a><a class='nav-link' href='../pages/SCHEMA.html'>Schema</a></div></div>
+    <div class="footer">Generated 2026-04-19 11:20 UTC</div>
+  </aside>
+  <main class="main">
+    
+    <section class="content">
+      <div class="meta"><span class="chip">articles</span></div>
+      <article><h1 id="codex-for-almost-everything-summary">Codex for (almost) everything — Summary</h1>
+
+<p>Source: https://openai.com/index/codex-for-almost-everything/</p>
+<p>Date: 2026-04-16</p>
+<p>Captured: 2026-04-19</p>
+<p>Type: web article</p>
+
+<h2 id="core-announcement">Core announcement</h2>
+
+<p>OpenAI announced a major Codex update expanding it across the <strong>full software development lifecycle</strong> and beyond pure coding.</p>
+
+<h2 id="what-s-new">What’s new</h2>
+<ul>
+<li><strong>Computer use</strong>: Codex can see, click, and type with its own cursor on the user&#x27;s computer.</li>
+<li><strong>In-app browser</strong>: page-level feedback inside rendered web pages.</li>
+<li><strong>Image generation</strong> in workflow with <code>gpt-image-1.5</code>.</li>
+<li><strong>90+ plugins/integrations</strong> including skills and MCP servers.</li>
+<li>Better lifecycle support: PR review comments, multiple terminals, remote devboxes via SSH, rich previews for docs/slides/spreadsheets/PDFs.</li>
+<li><strong>Automations</strong> with persistent thread context for recurring and long-running work.</li>
+<li>Preference memory and learning from prior actions.</li>
+</ul>
+
+<h2 id="product-framing">Product framing</h2>
+<p>OpenAI describes Codex as a tool for millions of developers and as a partner across design, building, testing, review, and repeated operational work.</p>
+
+<h2 id="key-excerpts">Key excerpts</h2>
+<blockquote>“We’re releasing a major update to Codex, making it a more powerful partner for the more than 3 million developers who use it every week to accelerate work across the full software development lifecycle.”</blockquote>
+
+<blockquote>“Codex can now operate your computer alongside you, work with more of the tools and apps you use everyday, generate images, remember your preferences, learn from previous actions, and take on ongoing and repeatable work.”</blockquote>
+
+<blockquote>“Together, these improvements make it faster to move across all the stages of the software development lifecycle between writing code, checking outputs, reviewing changes, and collaborating with the agent in one workspace.”</blockquote></article>
+    </section>
+    <div class="aside-grid" style="margin-top:20px;">
+      <section class="panel"><h3>Sources</h3><span class="muted">No linked source pages.</span></section>
+      <section class="panel"><h3>Backlinks</h3><div class="muted">No backlinks yet.</div></section>
+    </div>
+    
+  </main>
+</div>
+<script>
+const input = document.getElementById('search');
+const results = document.getElementById('search-results');
+let indexCache = null;
+async function getIndex() {
+  if (indexCache) return indexCache;
+  const res = await fetch('../assets/search-index.json');
+  indexCache = await res.json();
+  return indexCache;
+}
+input.addEventListener('input', async (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+  const idx = await getIndex();
+  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  results.hidden = false;
+  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${x.url}"><strong>${x.title}</strong><small>${x.category}</small><div>${x.summary}</div></a>`).join('') : '<div class="result">No results yet.</div>';
+});
+</script>
+</body></html>

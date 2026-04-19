@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codex vs Claude Code and Open Agent Platforms · AI Wiki</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge"></div>
+      <div>
+        <h1>AI Wiki</h1>
+        <p>Friendly browser for your linked research wiki</p>
+      </div>
+    </div>
+    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+    <div id="search-results" class="search-results" hidden></div>
+    <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div>
+<div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div>
+<div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div>
+<div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div>
+<div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div>
+<div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'>Index</a><a class='nav-link' href='../pages/log.html'>Log</a><a class='nav-link' href='../pages/SCHEMA.html'>Schema</a></div></div>
+    <div class="footer">Generated 2026-04-19 11:20 UTC</div>
+  </aside>
+  <main class="main">
+    
+    <section class="content">
+      <div class="meta"><span class="chip">comparisons</span><span class="chip">Updated 2026-04-19</span><span class="chip">comparison</span></div>
+      <article>
+<h1 id="codex-vs-claude-code-and-open-agent-platforms">Codex vs Claude Code and Open Agent Platforms</h1>
+
+<h2 id="summary">Summary</h2>
+<p><a href="../pages/entities__codex.html">codex</a> and <a href="../pages/entities__claude-code.html">claude-code</a> are converging on a similar thesis: software development is moving from hand-coding toward supervision of agents that can plan, execute, test, and iterate. But they differ in product center of gravity. <a href="../pages/entities__codex.html">codex</a> is evolving into a broad, hosted technical-work workspace with computer use, automations, plugins, and multimodal orchestration. <a href="../pages/entities__claude-code.html">claude-code</a> is more tightly framed around deeply agentic coding inside real codebases and toolchains, with strong emphasis on verification and human judgment. Open frameworks like <a href="../pages/entities__hermes-agent.html">hermes-agent</a> and <a href="../pages/entities__openclaw.html">openclaw</a> push a different thesis again: the future may also belong to user-controlled, extensible, cross-surface agents rather than only frontier-lab SaaS workspaces.</p>
+
+<h2 id="quick-comparison-table">Quick comparison table</h2>
+
+<div class="table-wrap"><table><thead><tr><th>System</th><th>Primary identity</th><th>Design center</th><th>Strength of current framing</th><th>Control model</th><th>Notable tradeoff</th></tr></thead><tbody>
+<tr><td><a href="../pages/entities__codex.html">codex</a></td><td>Hosted agentic technical-work platform</td><td>Full lifecycle orchestration, computer use, plugins, automations</td><td>Broadest workspace vision</td><td>Vendor-integrated, managed product</td><td>More action surface means more governance and permissions complexity</td></tr>
+<tr><td><a href="../pages/entities__claude-code.html">claude-code</a></td><td>Agentic coding system</td><td>Codebase-level execution, testing, CI/toolchain use, verification</td><td>Sharpest coding-specific operating model</td><td>Hosted/proprietary but human-approval-centric</td><td>Narrower public framing beyond coding than Codex</td></tr>
+<tr><td><a href="../pages/entities__hermes-agent.html">hermes-agent</a></td><td>Open agent framework</td><td>Persistent memory, skills, gateways, provider flexibility, extensibility</td><td>Broadest open general-agent shell</td><td>User-controlled and hackable</td><td>More assembly/orchestration burden on the user</td></tr>
+<tr><td><a href="../pages/entities__openclaw.html">openclaw</a></td><td>Open personal agent</td><td>Personal infrastructure, chat-native control, system/browser access</td><td>Strongest personal-agent framing</td><td>User-controlled and on-prem leaning</td><td>Less obviously enterprise-standardized than frontier-lab products</td></tr>
+</tbody></table></div>
+
+<h2 id="codex-vs-claude-code">Codex vs Claude Code</h2>
+
+<h3 id="where-they-agree">Where they agree</h3>
+<ul>
+<li>Both are explicit examples of <a href="../pages/concepts__agentic-software-development.html">agentic-software-development</a>.</li>
+<li>Both move beyond autocomplete into delegated multi-step execution.</li>
+<li>Both assume the developer increasingly becomes a supervisor, reviewer, and orchestrator.</li>
+<li>Both emphasize codebase/tool grounding rather than pure chat abstraction.</li>
+</ul>
+
+<h3 id="where-codex-is-stronger-in-public-positioning">Where Codex is stronger in public positioning</h3>
+<ul>
+<li>Broader claim to become a <strong>general technical-work agent</strong>, not just a coding agent.</li>
+<li>More explicit movement into computer use, in-app browsing, image generation, remote machines, and scheduled automations.</li>
+<li>Stronger “workspace/control-plane” framing for parallel agents.</li>
+</ul>
+
+<h3 id="where-claude-code-is-stronger-in-public-positioning">Where Claude Code is stronger in public positioning</h3>
+<ul>
+<li>Clearer articulation of the operational discipline needed for agentic coding to work in practice.</li>
+<li>More emphasis on tests, expected outputs, screenshots, scoped prompts, and approval boundaries.</li>
+<li>Stronger rhetoric around organization-wide coding adoption and shifts in engineering roles.</li>
+</ul>
+
+<h3 id="interpretation">Interpretation</h3>
+<p>If Codex looks like an <strong>agent operating environment</strong>, Claude Code looks like a <strong>high-discipline coding copilot upgraded into a codebase operator</strong>. Codex is expanding outward from coding into adjacent work; Claude Code is digging deeper into coding itself while still pointing toward multi-agent orchestration.</p>
+
+<h2 id="section-on-openclaw-and-hermes-agent">Section on OpenClaw and Hermes Agent</h2>
+<p><strong>Assumption:</strong> this section interprets “open law” as <strong><a href="../pages/entities__openclaw.html">openclaw</a></strong>, which appears to fit the agentic-AI context. If that is not what you meant, this section should be revised.</p>
+
+<h3 id="what-open-platforms-change">What open platforms change</h3>
+<p><a href="../pages/entities__hermes-agent.html">hermes-agent</a> and <a href="../pages/entities__openclaw.html">openclaw</a> matter because they represent a different competitive logic from <a href="../pages/entities__codex.html">codex</a> and <a href="../pages/entities__claude-code.html">claude-code</a>:</p>
+<ul>
+<li>the agent lives closer to the user,</li>
+<li>context and memory are user-controlled,</li>
+<li>the system can span chat apps, terminal, home automation, web, and custom tools,</li>
+<li>model choice can be swapped underneath the same workflow shell.</li>
+</ul>
+
+<h3 id="hermes-agent-specifically">Hermes Agent specifically</h3>
+<p><a href="../pages/entities__hermes-agent.html">hermes-agent</a> pushes the idea that the durable advantage in agentic AI may come from:</p>
+<ul>
+<li><strong>persistent memory</strong>,</li>
+<li><strong>reusable skills</strong>,</li>
+<li><strong>multi-platform reach</strong>,</li>
+<li><strong>provider portability</strong>, and</li>
+<li><strong>extensibility</strong>.</li>
+</ul>
+
+<p>This is strategically important because it treats agent quality as a compounding system property, not just a model property. In that sense, Hermes is closer to an <strong>agent runtime/framework</strong> than a single polished product surface.</p>
+
+<h3 id="openclaw-specifically">OpenClaw specifically</h3>
+<p><a href="../pages/entities__openclaw.html">openclaw</a> highlights a personal-agent thesis: users may want an agent that sits on their own machine, inside their own communication channels, with direct control over files, browser flows, and day-to-day automations. This is a different route into agentic AI than enterprise coding productivity.</p>
+
+<h3 id="strategic-takeaway">Strategic takeaway</h3>
+<p>Open systems like <a href="../pages/entities__hermes-agent.html">hermes-agent</a> and <a href="../pages/entities__openclaw.html">openclaw</a> imply that the future agent market may split three ways:</p>
+<ol><li><strong>Hosted frontier-lab workspaces</strong> like <a href="../pages/entities__codex.html">codex</a></li><li><strong>Focused proprietary coding operators</strong> like <a href="../pages/entities__claude-code.html">claude-code</a></li><li><strong>Open user-controlled agent runtimes</strong> like <a href="../pages/entities__hermes-agent.html">hermes-agent</a> and <a href="../pages/entities__openclaw.html">openclaw</a></li></ol>
+
+<h2 id="what-this-means-for-the-future">What this means for the future</h2>
+<ul>
+<li>The contest is no longer just about who has the best model; it is about who has the best <strong>agent architecture</strong>.</li>
+<li>Memory, permissions, orchestration, verification, integrations, and workflow continuity are becoming core product features.</li>
+<li>Open and closed ecosystems may diverge in values: convenience and polish versus control and extensibility.</li>
+<li>Multi-agent supervision is becoming a standard pattern across both proprietary and open systems.</li>
+</ul>
+
+<h2 id="synthesis">Synthesis</h2>
+<p><a href="../pages/entities__codex.html">codex</a> and <a href="../pages/entities__claude-code.html">claude-code</a> both validate the move to agentic software development, but they optimize for somewhat different futures. Codex suggests a broad, multimodal, hosted agent workspace. Claude Code suggests a deeply practical execution engine for code work under human supervision. <a href="../pages/entities__hermes-agent.html">hermes-agent</a> and <a href="../pages/entities__openclaw.html">openclaw</a> widen the frame further: the long-run winner may be not just the smartest coding agent, but the most adaptable agent environment around the user.</p>
+
+<h2 id="follow-on-comparison">Follow-on comparison</h2>
+<ul>
+<li><a href="../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html">codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats</a> drills into architecture, trust, and defensibility differences.</li>
+</ul>
+
+<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="../pages/entities__codex.html">codex</a></li>
+<li><a href="../pages/entities__claude-code.html">claude-code</a></li>
+<li><a href="../pages/entities__hermes-agent.html">hermes-agent</a></li>
+<li><a href="../pages/entities__openclaw.html">openclaw</a></li>
+<li><a href="../pages/concepts__agentic-software-development.html">agentic-software-development</a></li>
+</ul></article>
+    </section>
+    <div class="aside-grid" style="margin-top:20px;">
+      <section class="panel"><h3>Sources</h3><a class="chip" href="../pages/raw__articles__openai-introducing-codex-2025.html">openai introducing codex 2025</a><a class="chip" href="../pages/raw__articles__openai-introducing-gpt-5.3-codex-2026.html">openai introducing gpt 5.3 codex 2026</a><a class="chip" href="../pages/raw__articles__openai-codex-for-almost-everything-2026.html">openai codex for almost everything 2026</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-product-2026.html">anthropic claude code product 2026</a><a class="chip" href="../pages/raw__articles__anthropic-claude-code-best-practices-2026.html">anthropic claude code best practices 2026</a><a class="chip" href="../pages/raw__articles__anthropic-agentic-coding-trends-report-2026.html">anthropic agentic coding trends report 2026</a><a class="chip" href="../pages/raw__articles__nous-hermes-agent-homepage-2026.html">nous hermes agent homepage 2026</a><a class="chip" href="../pages/raw__articles__nous-hermes-agent-releases-v0.10.0-2026.html">nous hermes agent releases v0.10.0 2026</a><a class="chip" href="../pages/raw__articles__openclaw-homepage-2026.html">openclaw homepage 2026</a></section>
+      <section class="panel"><h3>Backlinks</h3><a class="result" href="../pages/start-here.html"><strong>Start Here</strong><small>root</small><div>This wiki is a growing knowledge base on frontier AI, agentic software development, policy framing, and the emerging market structure around technical-work agents. It is designed for fast navigation through linked pages </div></a><a class="result" href="../pages/_meta__topic-map.html"><strong>Topic Map</strong><small>_meta</small><div>Core pages:</div></a><a class="result" href="../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html"><strong>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</strong><small>comparisons</small><div>codex, claude-code, and hermes-agent all point toward the same future: users increasingly supervise agents instead of directly performing every technical step. But their underlying bets differ. codex is betting on a mana</div></a><a class="result" href="../pages/index.html"><strong># Wiki Index</strong><small>root</small><div>&gt; Content catalog. Every wiki page listed under its type with a one-line summary.</div></a></section>
+    </div>
+    
+  </main>
+</div>
+<script>
+const input = document.getElementById('search');
+const results = document.getElementById('search-results');
+let indexCache = null;
+async function getIndex() {
+  if (indexCache) return indexCache;
+  const res = await fetch('../assets/search-index.json');
+  indexCache = await res.json();
+  return indexCache;
+}
+input.addEventListener('input', async (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+  const idx = await getIndex();
+  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  results.hidden = false;
+  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${x.url}"><strong>${x.title}</strong><small>${x.category}</small><div>${x.summary}</div></a>`).join('') : '<div class="result">No results yet.</div>';
+});
+</script>
+</body></html>

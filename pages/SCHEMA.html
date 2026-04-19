@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title># Wiki Schema · AI Wiki</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge"></div>
+      <div>
+        <h1>AI Wiki</h1>
+        <p>Friendly browser for your linked research wiki</p>
+      </div>
+    </div>
+    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+    <div id="search-results" class="search-results" hidden></div>
+    <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div>
+<div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div>
+<div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div>
+<div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div>
+<div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div>
+<div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'>Index</a><a class='nav-link' href='../pages/log.html'>Log</a><a class='nav-link' href='../pages/SCHEMA.html'>Schema</a></div></div>
+    <div class="footer">Generated 2026-04-19 11:20 UTC</div>
+  </aside>
+  <main class="main">
+    
+    <section class="content">
+      <div class="meta"><span class="chip">root</span></div>
+      <article><h1 id="wiki-schema">Wiki Schema</h1>
+
+<h2 id="domain">Domain</h2>
+<p>AI research and adjacent AI engineering knowledge: models, labs, techniques, benchmarks, tooling, evaluation, inference, training, productization, and important people/organizations. The wiki is intended to compound over time into a practical research and operations knowledge base, not a raw clipping archive.</p>
+
+<h2 id="conventions">Conventions</h2>
+<ul>
+<li>File names: lowercase, hyphens, no spaces (e.g., <code>transformer-architecture.md</code>)</li>
+<li>Every wiki page starts with YAML frontmatter</li>
+<li>Use <code><span class="broken-link">wikilinks</span></code> to link between pages (minimum 2 outbound links per page)</li>
+<li>When updating a page, always bump the <code>updated</code> date</li>
+<li>Every new page must be added to <code>index.md</code> under the correct section</li>
+<li>Every action must be appended to <code>log.md</code></li>
+<li>Raw source files live under <code>raw/</code> and are immutable after capture</li>
+<li>Prefer concise, scannable pages; move long derivations or deep dives into separate pages</li>
+<li>Use direct source-based claims; if a claim is uncertain, label it explicitly</li>
+</ul>
+
+<h2 id="frontmatter">Frontmatter</h2>
+<pre><code>
+---
+
+title: Page Title
+
+created: YYYY-MM-DD
+
+updated: YYYY-MM-DD
+
+type: entity | concept | comparison | query | summary
+
+tags: [from taxonomy below]
+
+sources: [raw/articles/source-name.md]
+
+---
+
+</code></pre>
+
+<h2 id="tag-taxonomy">Tag Taxonomy</h2>
+<ul>
+<li>model</li>
+<li>architecture</li>
+<li>benchmark</li>
+<li>training</li>
+<li>inference</li>
+<li>evaluation</li>
+<li>dataset</li>
+<li>alignment</li>
+<li>safety</li>
+<li>agent</li>
+<li>reasoning</li>
+<li>multimodal</li>
+<li>vision</li>
+<li>speech</li>
+<li>robotics</li>
+<li>company</li>
+<li>lab</li>
+<li>person</li>
+<li>open-source</li>
+<li>product</li>
+<li>tooling</li>
+<li>infrastructure</li>
+<li>gpu</li>
+<li>efficiency</li>
+<li>fine-tuning</li>
+<li>reinforcement-learning</li>
+<li>synthetic-data</li>
+<li>regulation</li>
+<li>security</li>
+<li>timeline</li>
+<li>comparison</li>
+<li>controversy</li>
+<li>prediction</li>
+</ul>
+
+<p>Rule: every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.</p>
+
+<h2 id="page-thresholds">Page Thresholds</h2>
+<ul>
+<li>Create a page when an entity/concept appears in 2+ sources OR is central to one source</li>
+<li>Add to an existing page when a source mentions something already covered</li>
+<li>Don&#x27;t create a page for passing mentions, minor details, or things outside AI research scope</li>
+<li>Split a page when it exceeds ~200 lines; break into sub-topics with cross-links</li>
+<li>Archive a page when its content is fully superseded; move to <code>_archive/</code>, remove from index</li>
+</ul>
+
+<h2 id="entity-pages">Entity Pages</h2>
+<p>One page per notable entity. Include:</p>
+<ul>
+<li>Overview / what it is</li>
+<li>Key facts and dates</li>
+<li>Relationships to other entities (<span class="broken-link">wikilinks</span>)</li>
+<li>Source references</li>
+</ul>
+
+<p>Entity categories commonly include people, companies, labs, open-source projects, products, models, and benchmarks when a dedicated entity page is more natural than a concept page.</p>
+
+<h2 id="concept-pages">Concept Pages</h2>
+<p>One page per concept or topic. Include:</p>
+<ul>
+<li>Definition / explanation</li>
+<li>Current state of knowledge</li>
+<li>Open questions or debates</li>
+<li>Related concepts (<span class="broken-link">wikilinks</span>)</li>
+</ul>
+
+<p>Common concept topics include training methods, evaluation patterns, inference systems, scaling laws, agent workflows, safety methods, and benchmark design.</p>
+
+<h2 id="comparison-pages">Comparison Pages</h2>
+<p>Side-by-side analyses. Include:</p>
+<ul>
+<li>What is being compared and why</li>
+<li>Dimensions of comparison (table format preferred)</li>
+<li>Verdict or synthesis</li>
+<li>Sources</li>
+</ul>
+
+<p>Examples: model-vs-model, benchmark-vs-benchmark, lab strategy comparisons, inference stack trade-offs.</p>
+
+<h2 id="query-pages">Query Pages</h2>
+<p>Use <code>queries/</code> for substantial answers worth preserving, such as:</p>
+<ul>
+<li>deep research syntheses</li>
+<li>recurring user questions</li>
+<li>multi-source comparisons that would be expensive to reconstruct</li>
+</ul>
+
+<p>Do not file trivial lookups.</p>
+
+<h2 id="update-policy">Update Policy</h2>
+<p>When new information conflicts with existing content:</p>
+<ol><li>Check dates — newer sources generally supersede older ones</li><li>If genuinely contradictory, note both positions with dates and sources</li><li>Mark the contradiction in frontmatter: <code>contradictions: [page-name]</code></li><li>Flag for user review in the lint report</li></ol>
+
+<h2 id="default-structure-hints">Default Structure Hints</h2>
+<ul>
+<li><code>entities/</code> for labs, companies, products, notable researchers, named models, datasets, benchmarks</li>
+<li><code>concepts/</code> for methods, abstractions, research themes, technical mechanisms</li>
+<li><code>comparisons/</code> for structured side-by-side analyses</li>
+<li><code>queries/</code> for reusable syntheses and non-trivial question answers</li>
+</ul>
+
+<h2 id="preferred-style">Preferred Style</h2>
+<ul>
+<li>Lead with a compact summary section</li>
+<li>Prefer bullets and short sections over long prose</li>
+<li>Keep claims attributable to sources</li>
+<li>Include open questions where the field is unsettled</li>
+<li>Link outward aggressively so the wiki becomes navigable as it grows</li>
+</ul></article>
+    </section>
+    <div class="aside-grid" style="margin-top:20px;">
+      <section class="panel"><h3>Sources</h3><span class="muted">No linked source pages.</span></section>
+      <section class="panel"><h3>Backlinks</h3><div class="muted">No backlinks yet.</div></section>
+    </div>
+    
+  </main>
+</div>
+<script>
+const input = document.getElementById('search');
+const results = document.getElementById('search-results');
+let indexCache = null;
+async function getIndex() {
+  if (indexCache) return indexCache;
+  const res = await fetch('../assets/search-index.json');
+  indexCache = await res.json();
+  return indexCache;
+}
+input.addEventListener('input', async (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+  const idx = await getIndex();
+  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  results.hidden = false;
+  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${x.url}"><strong>${x.title}</strong><small>${x.category}</small><div>${x.summary}</div></a>`).join('') : '<div class="result">No results yet.</div>';
+});
+</script>
+</body></html>

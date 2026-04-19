@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title># Introducing GPT-5.3-Codex — Summary · AI Wiki</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge"></div>
+      <div>
+        <h1>AI Wiki</h1>
+        <p>Friendly browser for your linked research wiki</p>
+      </div>
+    </div>
+    <input id="search" class="search" placeholder="Search pages, topics, companies…" />
+    <div id="search-results" class="search-results" hidden></div>
+    <div class='nav-section'><h3>Meta</h3><div class='nav-list'><a class='nav-link' href='../pages/start-here.html'>Start Here</a><a class='nav-link' href='../pages/_meta__topic-map.html'>Topic Map</a></div></div>
+<div class='nav-section'><h3>Entities</h3><div class='nav-list'><a class='nav-link' href='../pages/entities__anthropic.html'>Anthropic</a><a class='nav-link' href='../pages/entities__claude-code.html'>Claude Code</a><a class='nav-link' href='../pages/entities__codex.html'>Codex</a><a class='nav-link' href='../pages/entities__google.html'>Google</a><a class='nav-link' href='../pages/entities__hermes-agent.html'>Hermes Agent</a><a class='nav-link' href='../pages/entities__openai.html'>OpenAI</a><a class='nav-link' href='../pages/entities__openclaw.html'>OpenClaw</a><a class='nav-link' href='../pages/entities__united-states-government.html'>United States Government</a></div></div>
+<div class='nav-section'><h3>Concepts</h3><div class='nav-list'><a class='nav-link' href='../pages/concepts__agentic-software-development.html'>Agentic Software Development</a><a class='nav-link' href='../pages/concepts__industrial-policy-for-the-intelligence-age.html'>Industrial Policy for the Intelligence Age</a><a class='nav-link' href='../pages/concepts__superintelligence-governance.html'>Superintelligence Governance</a></div></div>
+<div class='nav-section'><h3>Comparisons</h3><div class='nav-list'><a class='nav-link' href='../pages/comparisons__anthropic-google-openai-us-government-ai-policy-framings.html'>Anthropic, Google, OpenAI, and U.S. Government AI Policy Framings</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-and-open-agent-platforms.html'>Codex vs Claude Code and Open Agent Platforms</a><a class='nav-link' href='../pages/comparisons__codex-vs-claude-code-vs-hermes-agent-architecture-trust-moats.html'>Codex vs Claude Code vs Hermes Agent on Architecture, Trust, and Moats</a></div></div>
+<div class='nav-section'><h3>Queries</h3><div class='nav-list'><a class='nav-link' href='../pages/queries__openai-codex-agentic-ai-future-2026-04-19.html'>OpenAI Codex, agentic AI, and what the latest release implies</a></div></div>
+<div class='nav-section'><h3>Reference</h3><div class='nav-list'><a class='nav-link' href='../pages/index.html'>Index</a><a class='nav-link' href='../pages/log.html'>Log</a><a class='nav-link' href='../pages/SCHEMA.html'>Schema</a></div></div>
+    <div class="footer">Generated 2026-04-19 11:20 UTC</div>
+  </aside>
+  <main class="main">
+    
+    <section class="content">
+      <div class="meta"><span class="chip">articles</span></div>
+      <article><h1 id="introducing-gpt-5-3-codex-summary">Introducing GPT-5.3-Codex — Summary</h1>
+
+<p>Source: https://openai.com/index/introducing-gpt-5-3-codex/</p>
+<p>Date: 2026-02-05</p>
+<p>Captured: 2026-04-19</p>
+<p>Type: web article</p>
+
+<h2 id="core-announcement">Core announcement</h2>
+
+<p>OpenAI introduced <strong>GPT-5.3-Codex</strong>, described as <strong>“the most capable agentic coding model to date”</strong> and as a step from coding/review toward a broader <strong>computer-use professional agent</strong>.</p>
+
+<h2 id="key-points">Key points</h2>
+<ul>
+<li>Combines coding performance with broader reasoning and professional knowledge.</li>
+<li>OpenAI says it is <strong>25% faster</strong> and better on long-running tasks involving research, tool use, and complex execution.</li>
+<li>Supports <strong>interactive steering while working</strong>.</li>
+<li>OpenAI frames it as progress toward a <strong>single, general-purpose agent</strong> for technical work.</li>
+<li>OpenAI also says this is the first model it classifies as <strong>High capability for cybersecurity-related tasks</strong> under its Preparedness Framework.</li>
+</ul>
+
+<h2 id="benchmarks-highlighted-by-openai">Benchmarks highlighted by OpenAI</h2>
+<ul>
+<li>SWE-Bench Pro: 56.8%</li>
+<li>Terminal-Bench 2.0: 77.3%</li>
+<li>OSWorld-Verified: 64.7%</li>
+<li>GDPval wins or ties: 70.9%</li>
+</ul>
+
+<h2 id="key-excerpts">Key excerpts</h2>
+<blockquote>“We’re introducing a new model that unlocks even more of what Codex can do: GPT‑5.3‑Codex, the most capable agentic coding model to date.”</blockquote>
+
+<blockquote>“With GPT‑5.3‑Codex, Codex goes from an agent that can write and review code to an agent that can do nearly anything developers and professionals can do on a computer.”</blockquote>
+
+<blockquote>“Together, these results ... mark a step change toward a single, general-purpose agent that can reason, build, and execute across the full spectrum of real-world technical work.”</blockquote></article>
+    </section>
+    <div class="aside-grid" style="margin-top:20px;">
+      <section class="panel"><h3>Sources</h3><span class="muted">No linked source pages.</span></section>
+      <section class="panel"><h3>Backlinks</h3><div class="muted">No backlinks yet.</div></section>
+    </div>
+    
+  </main>
+</div>
+<script>
+const input = document.getElementById('search');
+const results = document.getElementById('search-results');
+let indexCache = null;
+async function getIndex() {
+  if (indexCache) return indexCache;
+  const res = await fetch('../assets/search-index.json');
+  indexCache = await res.json();
+  return indexCache;
+}
+input.addEventListener('input', async (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+  const idx = await getIndex();
+  const matches = idx.filter(x => (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)).slice(0, 10);
+  results.hidden = false;
+  results.innerHTML = matches.length ? matches.map(x => `<a class="result" href="../${x.url}"><strong>${x.title}</strong><small>${x.category}</small><div>${x.summary}</div></a>`).join('') : '<div class="result">No results yet.</div>';
+});
+</script>
+</body></html>
